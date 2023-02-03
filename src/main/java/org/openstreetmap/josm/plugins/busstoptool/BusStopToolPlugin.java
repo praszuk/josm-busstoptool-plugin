@@ -9,5 +9,6 @@ public class BusStopToolPlugin extends Plugin {
     public BusStopToolPlugin(PluginInformation info) {
         super(info);
         MainMenu.add(MainApplication.getMenu().selectionMenu, new PlatformFromStopAction());
+        MainMenu.add(MainApplication.getMenu().selectionMenu, new StopFromPlatformAction());
     }
 }

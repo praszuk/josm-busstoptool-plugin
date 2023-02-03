@@ -14,11 +14,11 @@ import java.util.List;
 import static org.openstreetmap.josm.data.osm.OsmPrimitive.getParentRelations;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
-public class PlatformFromStopAction extends BusStopAction{
-    static final String TITLE = tr("Create platform from stop_position");
-    static final String DESCRIPTION = tr("Creates platform from stop_position and add new platform to relations");
-    public PlatformFromStopAction() {
-        super(TITLE, DESCRIPTION, "busstoptool:createplatform", tr("Open create platform dialog"));
+public class StopFromPlatformAction extends BusStopAction {
+    static final String TITLE = tr("Create stop_position from platform");
+    static final String DESCRIPTION = tr("Creates stop_position from platform and add new stop to relations");
+    public StopFromPlatformAction() {
+        super(TITLE, DESCRIPTION, "busstoptool:createstop", tr("Open create stop dialog"));
     }
 
     @Override
@@ -29,8 +29,8 @@ public class PlatformFromStopAction extends BusStopAction{
             BusStopToolGUI.errorDialog(msg);
             return;
         }
-        if (!source.hasTag("public_transport","stop_position")){
-            String msg = tr("Action canceled. Source object doesn't contains public_transport=stop_position tag!");
+        if (!source.hasTag("public_transport","platform")){
+            String msg = tr("Action canceled. Source object doesn't contains public_transport=platform tag!");
             Logging.warn(msg);
             BusStopToolGUI.errorDialog(msg);
             return;
@@ -43,51 +43,41 @@ public class PlatformFromStopAction extends BusStopAction{
         source.keys().filter(key-> !EXCLUDE_KEYS.contains(key)).forEach(key -> tags.put(key, source.get(key)));
         commands.add(new ChangePropertyCommand(List.of(destination), tags));
 
-        // Add missing (required?) tags to the platform
-        TagMap missingTags = new TagMap("public_transport", "platform");
-        if (destination.getType().equals(OsmPrimitiveType.NODE)){
-            missingTags.put("highway", "bus_stop");
-        }
-        else if (destination.getType().equals(OsmPrimitiveType.WAY)){
-            missingTags.put("highway", "platform");
-            if (((Way) destination).isClosed()){
-                missingTags.put("area", "yes");
-            }
-        }
+        // Add missing (required?) tags to the stop
+        TagMap missingTags = new TagMap("public_transport", "stop_position", "bus", "yes");
         commands.add(new ChangePropertyCommand(List.of(destination), missingTags));
 
-        // Create relation memberships with platform* role AFTER source stop_position member
+        // Create relation memberships with platform* role BEFORE source platform member
         for (Relation sourceRel : getParentRelations(List.of(source))){
             List<RelationMember> newMembers = new ArrayList<>();
             for (RelationMember member : sourceRel.getMembers()){
-                newMembers.add(member);
-
                 if (member.getMember().equals(source)){
                     String role = null;
 
                     switch(member.getRole()){
-                        case "stop":
-                            role = "platform";
+                        case "platform":
+                            role = "stop";
                             break;
-                        case "stop_entry_only":
-                            role = "platform_entry_only";
+                        case "platform_entry_only":
+                            role = "stop_entry_only";
                             break;
-                        case "stop_exit_only":
-                            role = "platform_exit_only";
+                        case "platform_exit_only":
+                            role = "stop_exit_only";
                             break;
                     }
 
                     if (role == null){
                         Logging.warn(String.format(
-                            "Incorrect role (%s)! Skipping member (%o) in relation (%o)!",
-                            member.getRole(),
-                            member.getMember().getId(),
-                            sourceRel.getId()
+                                "Incorrect role (%s)! Skipping member (%o) in relation (%o)!",
+                                member.getRole(),
+                                member.getMember().getId(),
+                                sourceRel.getId()
                         ));
                     } else{
                         newMembers.add(new RelationMember(role, destination));
                     }
                 }
+                newMembers.add(member);
             }
             commands.add(new ChangeMembersCommand(sourceRel, newMembers));
         }
@@ -95,5 +85,4 @@ public class PlatformFromStopAction extends BusStopAction{
         SequenceCommand cmd = new SequenceCommand(DESCRIPTION, commands);
         UndoRedoHandler.getInstance().add(cmd);
     }
-
 }
