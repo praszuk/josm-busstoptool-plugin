@@ -30,6 +30,7 @@ public abstract class BusStopAction extends JosmAction {
             false
         );
         this.title = title;
+        setEnabled(false);
     }
 
     /**
