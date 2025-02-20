@@ -259,43 +259,43 @@ public class PlatformFromStopTest {
         Assertions.assertFalse(r.getMembers().stream().anyMatch(rm -> rm.getMember().equals(newPlatformNode)));
 
     }
-// TODO Fix the code
-//    @Test
-//    void testAddPlatformWithRelationMultiplePlatformWithOnlyOneMissing() {
-//        Node stopNode = createStop(ds);
-//        Node newPlatformNode = createNode(ds, Map.of("highway", "bus_stop", "public_transport", "platform"));
-//
-//        Relation r = new RelationHelper(ds)
-//            .addMember("stop_entry_only", createStop(ds))
-//            .addMember("platform_entry_only", createPlatform(ds))
-//            .addMember("stop", stopNode)
-//            .addMember("platform", newPlatformNode)
-//            .addMember("stop", createStop(ds))
-//            .addMember("platform", createPlatform(ds))
-//            .addMember("stop", stopNode)
-//            .addMember("stop_exit_only", createStop(ds))
-//            .addMember("platform_exit_only", createPlatform(ds))
-//            .getRelation();
-//
-//        PlatformFromStopAction action = new PlatformFromStopAction();
-//        action.source = stopNode;
-//        action.destination = newPlatformNode;
-//        action.runAction();
-//
-//        Assertions.assertFalse(newPlatformNode.getKeys().isEmpty());
-//        Assertions.assertEquals(10, r.getMembers().size());
-//        Assertions.assertEquals("platform", r.getMembers().get(3).getRole());
-//        Assertions.assertEquals("platform", r.getMembers().get(7).getRole());
-//        Assertions.assertEquals(newPlatformNode, r.getMembers().get(3).getMember());
-//        Assertions.assertEquals(newPlatformNode, r.getMembers().get(7).getMember());
-//
-//        UndoRedoHandler.getInstance().getLastCommand().undoCommand();
-//
-//        Assertions.assertFalse(newPlatformNode.getKeys().isEmpty());
-//        Assertions.assertEquals(9, r.getMembers().size());
-//        Assertions.assertEquals("platform", r.getMembers().get(3).getRole());
-//        Assertions.assertEquals(newPlatformNode, r.getMembers().get(3).getMember());
-//    }
+
+    @Test
+    void testAddPlatformWithRelationMultiplePlatformWithOnlyOneMissing() {
+        Node stopNode = createStop(ds);
+        Node newPlatformNode = createNode(ds, Map.of("highway", "bus_stop", "public_transport", "platform"));
+
+        Relation r = new RelationHelper(ds)
+            .addMember("stop_entry_only", createStop(ds))
+            .addMember("platform_entry_only", createPlatform(ds))
+            .addMember("stop", stopNode)
+            .addMember("platform", newPlatformNode)
+            .addMember("stop", createStop(ds))
+            .addMember("platform", createPlatform(ds))
+            .addMember("stop", stopNode)
+            .addMember("stop_exit_only", createStop(ds))
+            .addMember("platform_exit_only", createPlatform(ds))
+            .getRelation();
+
+        PlatformFromStopAction action = new PlatformFromStopAction();
+        action.source = stopNode;
+        action.destination = newPlatformNode;
+        action.runAction();
+
+        Assertions.assertFalse(newPlatformNode.getKeys().isEmpty());
+        Assertions.assertEquals(10, r.getMembers().size());
+        Assertions.assertEquals("platform", r.getMembers().get(3).getRole());
+        Assertions.assertEquals("platform", r.getMembers().get(7).getRole());
+        Assertions.assertEquals(newPlatformNode, r.getMembers().get(3).getMember());
+        Assertions.assertEquals(newPlatformNode, r.getMembers().get(7).getMember());
+
+        UndoRedoHandler.getInstance().getLastCommand().undoCommand();
+
+        Assertions.assertFalse(newPlatformNode.getKeys().isEmpty());
+        Assertions.assertEquals(9, r.getMembers().size());
+        Assertions.assertEquals("platform", r.getMembers().get(3).getRole());
+        Assertions.assertEquals(newPlatformNode, r.getMembers().get(3).getMember());
+    }
 
     @Test
     void testAddPlatformWithRelationForStopEntryOnly() {
