@@ -4,6 +4,7 @@ import static org.openstreetmap.josm.plugins.busstoptool.NodeHelper.createNode;
 import static org.openstreetmap.josm.plugins.busstoptool.NodeHelper.createPlatform;
 import static org.openstreetmap.josm.plugins.busstoptool.NodeHelper.createStop;
 
+import java.util.Map;
 import mockit.Mock;
 import mockit.MockUp;
 import org.junit.jupiter.api.Assertions;
@@ -264,44 +265,45 @@ public class StopFromPlatformTest {
         Assertions.assertFalse(r.getMembers().stream().anyMatch(rm -> rm.getMember().equals(stop)));
 
     }
-// TODO Fix the code
-//    @Test
-//    void testAddStopWithRelationMultipleStopWithOnlyOneMissing() {
-//        Node stop = createNode(ds, Map.of("public_transport", "stop_position", "bus", "yes"));
-//        Node platform = createPlatform(ds);
-//
-//
-//        Relation r = new RelationHelper(ds)
-//            .addMember("stop_entry_only", createStop(ds))
-//            .addMember("platform_entry_only", createPlatform(ds))
-//            .addMember("stop", stop)
-//            .addMember("platform", platform)
-//            .addMember("stop", createStop(ds))
-//            .addMember("platform", createPlatform(ds))
-//            .addMember("platform", platform)
-//            .addMember("stop_exit_only", createStop(ds))
-//            .addMember("platform_exit_only", createPlatform(ds))
-//            .getRelation();
-//
-//        StopFromPlatformAction action = new StopFromPlatformAction();
-//        action.source = platform;
-//        action.destination = stop;
-//        action.runAction();
-//
-//        Assertions.assertFalse(stop.getKeys().isEmpty());
-//        Assertions.assertEquals(10, r.getMembers().size());
-//        Assertions.assertEquals("stop", r.getMembers().get(2).getRole());
-//        Assertions.assertEquals("stop", r.getMembers().get(6).getRole());
-//        Assertions.assertEquals(stop, r.getMembers().get(2).getMember());
-//        Assertions.assertEquals(stop, r.getMembers().get(6).getMember());
-//
-//        UndoRedoHandler.getInstance().getLastCommand().undoCommand();
-//
-//        Assertions.assertFalse(stop.getKeys().isEmpty());
-//        Assertions.assertEquals(9, r.getMembers().size());
-//        Assertions.assertEquals("platform", r.getMembers().get(2).getRole());
-//        Assertions.assertEquals(stop, r.getMembers().get(6).getMember());
-//    }
+
+    @Test
+    void testAddStopWithRelationMultipleStopWithOnlyOneMissing() {
+        Node stop = createNode(ds, Map.of("public_transport", "stop_position", "bus", "yes"));
+        Node platform = createPlatform(ds);
+
+        Relation r = new RelationHelper(ds)
+            .addMember("stop_entry_only", createStop(ds))
+            .addMember("platform_entry_only", createPlatform(ds))
+            .addMember("stop", stop)
+            .addMember("platform", platform)
+            .addMember("stop", createStop(ds))
+            .addMember("platform", createPlatform(ds))
+            .addMember("platform", platform)
+            .addMember("stop_exit_only", createStop(ds))
+            .addMember("platform_exit_only", createPlatform(ds))
+            .getRelation();
+
+        StopFromPlatformAction action = new StopFromPlatformAction();
+        action.source = platform;
+        action.destination = stop;
+        action.runAction();
+
+        Assertions.assertFalse(stop.getKeys().isEmpty());
+        Assertions.assertEquals(10, r.getMembers().size());
+        Assertions.assertEquals("stop", r.getMembers().get(2).getRole());
+        Assertions.assertEquals("stop", r.getMembers().get(6).getRole());
+        Assertions.assertEquals(stop, r.getMembers().get(2).getMember());
+        Assertions.assertEquals(stop, r.getMembers().get(6).getMember());
+
+        UndoRedoHandler.getInstance().getLastCommand().undoCommand();
+
+        Assertions.assertFalse(stop.getKeys().isEmpty());
+        Assertions.assertEquals(9, r.getMembers().size());
+        Assertions.assertEquals("stop", r.getMembers().get(2).getRole());
+        Assertions.assertEquals("platform", r.getMembers().get(6).getRole());
+        Assertions.assertEquals(platform, r.getMembers().get(6).getMember());
+
+    }
 
     @Test
     void testAddStopWithRelationForPlatformEntryOnly() {
