@@ -50,11 +50,15 @@ public class StopFromPlatformAction extends BusStopAction {
         // Create relation memberships with platform* role BEFORE source platform member
         for (Relation sourceRel : getParentRelations(List.of(source))){
             List<RelationMember> newMembers = new ArrayList<>();
-            for (RelationMember member : sourceRel.getMembers()){
-                if (member.getMember().equals(source)){
+            List<RelationMember> members = sourceRel.getMembers();
+            for (int i = 0; i < members.size(); i++) {
+                RelationMember member = members.get(i);
+                OsmPrimitive previousMemberPrimitive = i - 1 > 0 ? members.get(i - 1).getMember() : null;
+
+                if (member.getMember().equals(source)) {
                     String role = null;
 
-                    switch(member.getRole()){
+                    switch (member.getRole()) {
                         case "platform":
                             role = "stop";
                             break;
@@ -66,14 +70,14 @@ public class StopFromPlatformAction extends BusStopAction {
                             break;
                     }
 
-                    if (role == null){
+                    if (role == null) {
                         Logging.warn(String.format(
-                                "Incorrect role (%s)! Skipping member (%o) in relation (%o)!",
-                                member.getRole(),
-                                member.getMember().getId(),
-                                sourceRel.getId()
+                            "Incorrect role (%s)! Skipping member (%o) in relation (%o)!",
+                            member.getRole(),
+                            member.getMember().getId(),
+                            sourceRel.getId()
                         ));
-                    } else{
+                    } else if(previousMemberPrimitive == null || !previousMemberPrimitive.equals(destination)) {
                         newMembers.add(new RelationMember(role, destination));
                     }
                 }
