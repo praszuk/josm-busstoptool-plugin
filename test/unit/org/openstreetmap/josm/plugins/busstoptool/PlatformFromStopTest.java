@@ -15,6 +15,7 @@ import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Relation;
+import org.openstreetmap.josm.data.osm.RelationMember;
 import org.openstreetmap.josm.data.osm.Way;
 
 public class PlatformFromStopTest {
@@ -150,47 +151,46 @@ public class PlatformFromStopTest {
         Assertions.assertTrue(platformArea.getKeys().isEmpty());
     }
 
-// TODO Fix the code
-//    @Test
-//    void testCreateTagsWithoutRelationRelationMultipolygonPlatform() {
-//        Node stop = createStop(ds);
-//        stop.put("name", "Bus stop 02");
-//        PlatformFromStopAction action = new PlatformFromStopAction();
-//
-//        Relation platformMultipolygon = new Relation();
-//        Way way1 = new Way();
-//        Way way2 = new Way();
-//        Way way3 = new Way();
-//        ds.addPrimitive(platformMultipolygon);
-//        ds.addPrimitive(way1);
-//        ds.addPrimitive(way2);
-//        ds.addPrimitive(way3);
-//        way1.addNode(createNode(ds));
-//        way1.addNode(createNode(ds));
-//        way2.addNode(way1.lastNode());
-//        way2.addNode(createNode(ds));
-//        way3.addNode(way2.lastNode());
-//        way3.addNode(way1.lastNode());
-//
-//        platformMultipolygon.addMember(new RelationMember("outline", way1));
-//        platformMultipolygon.addMember(new RelationMember("outline", way2));
-//        platformMultipolygon.addMember(new RelationMember("outline", way3));
-//
-//        action.source = stop;
-//
-//        action.destination = platformMultipolygon;
-//        action.runAction();
-//
-//        Assertions.assertEquals(4, platformMultipolygon.getKeys().size());
-//        Assertions.assertTrue(platformMultipolygon.hasTag("public_transport", "platform"));
-//        Assertions.assertTrue(platformMultipolygon.hasTag("highway", "platform"));
-//        Assertions.assertTrue(platformMultipolygon.hasTag("name", "Bus stop 02"));
-//        Assertions.assertTrue(platformMultipolygon.hasTag("bus", "yes"));
-//
-//        UndoRedoHandler.getInstance().getLastCommand().undoCommand();
-//
-//        Assertions.assertTrue(platformMultipolygon.getKeys().isEmpty());
-//    }
+    @Test
+    void testCreateTagsWithoutRelationRelationMultipolygonPlatform() {
+        Node stop = createStop(ds);
+        stop.put("name", "Bus stop 02");
+        PlatformFromStopAction action = new PlatformFromStopAction();
+
+        Relation platformMultipolygon = new Relation();
+        Way way1 = new Way();
+        Way way2 = new Way();
+        Way way3 = new Way();
+        ds.addPrimitive(platformMultipolygon);
+        ds.addPrimitive(way1);
+        ds.addPrimitive(way2);
+        ds.addPrimitive(way3);
+        way1.addNode(createNode(ds));
+        way1.addNode(createNode(ds));
+        way2.addNode(way1.lastNode());
+        way2.addNode(createNode(ds));
+        way3.addNode(way2.lastNode());
+        way3.addNode(way1.lastNode());
+
+        platformMultipolygon.addMember(new RelationMember("outline", way1));
+        platformMultipolygon.addMember(new RelationMember("outline", way2));
+        platformMultipolygon.addMember(new RelationMember("outline", way3));
+
+        action.source = stop;
+
+        action.destination = platformMultipolygon;
+        action.runAction();
+
+        Assertions.assertEquals(4, platformMultipolygon.getKeys().size());
+        Assertions.assertTrue(platformMultipolygon.hasTag("public_transport", "platform"));
+        Assertions.assertTrue(platformMultipolygon.hasTag("highway", "platform"));
+        Assertions.assertTrue(platformMultipolygon.hasTag("name", "Bus stop 02"));
+        Assertions.assertTrue(platformMultipolygon.hasTag("bus", "yes"));
+
+        UndoRedoHandler.getInstance().getLastCommand().undoCommand();
+
+        Assertions.assertTrue(platformMultipolygon.getKeys().isEmpty());
+    }
 
     @Test
     void testAddPlatformWithRelation() {

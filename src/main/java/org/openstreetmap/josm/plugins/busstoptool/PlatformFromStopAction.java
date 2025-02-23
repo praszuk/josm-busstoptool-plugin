@@ -43,18 +43,8 @@ public class PlatformFromStopAction extends BusStopAction{
         source.keys().filter(key-> !EXCLUDE_KEYS.contains(key)).forEach(key -> tags.put(key, source.get(key)));
         commands.add(new ChangePropertyCommand(List.of(destination), tags));
 
-        // Add missing (required?) tags to the platform
-        TagMap missingTags = new TagMap("public_transport", "platform");
-        if (destination.getType().equals(OsmPrimitiveType.NODE)){
-            missingTags.put("highway", "bus_stop");
-        }
-        else if (destination.getType().equals(OsmPrimitiveType.WAY)){
-            missingTags.put("highway", "platform");
-            if (((Way) destination).isClosed()){
-                missingTags.put("area", "yes");
-            }
-        }
-        commands.add(new ChangePropertyCommand(List.of(destination), missingTags));
+        // Add base (required) tags to the platform
+        commands.add(new ChangePropertyCommand(List.of(destination), getBasePlatformTags(destination)));
 
         // Create relation memberships with platform* role AFTER source stop_position member
         for (Relation sourceRel : getParentRelations(List.of(source))){
@@ -98,6 +88,22 @@ public class PlatformFromStopAction extends BusStopAction{
 
         SequenceCommand cmd = new SequenceCommand(DESCRIPTION, commands);
         UndoRedoHandler.getInstance().add(cmd);
+    }
+
+    static TagMap getBasePlatformTags(OsmPrimitive platform) {
+        TagMap baseTags = new TagMap("public_transport", "platform");
+        if (platform.getType().equals(OsmPrimitiveType.NODE)){
+            baseTags.put("highway", "bus_stop");
+        }
+        else if (platform.getType().equals(OsmPrimitiveType.WAY)){
+            baseTags.put("highway", "platform");
+            if (((Way) platform).isClosed()){
+                baseTags.put("area", "yes");
+            }
+        } else {
+            baseTags.put("highway", "platform");
+        }
+        return baseTags;
     }
 
 }
