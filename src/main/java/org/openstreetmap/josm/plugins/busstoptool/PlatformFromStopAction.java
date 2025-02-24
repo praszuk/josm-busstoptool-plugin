@@ -18,7 +18,7 @@ public class PlatformFromStopAction extends BusStopAction{
     static final String TITLE = tr("Create platform from stop_position");
     static final String DESCRIPTION = tr("Creates platform from stop_position and add new platform to relations");
     public PlatformFromStopAction() {
-        super(TITLE, DESCRIPTION, "busstoptool:createplatform", tr("Open create platform dialog"));
+        super(TITLE, DESCRIPTION, BusStopToolPlugin.pluginName + ":createplatform", BusStopToolPlugin.pluginName + ": " + tr("Open create platform dialog"));
     }
 
     @Override
