@@ -26,16 +26,22 @@ public class StopFromPlatformTest {
         UndoRedoHandler.getInstance().clean();
 
         this.ds = new DataSet();
+    }
 
+    private void mockErrorDialog(String expectedMessage) {
         new MockUp<BusStopToolGUI>()
         {
             @Mock
-            void errorDialog(String msg) {}
+            void errorDialog(String msg) {
+                Assertions.assertEquals(expectedMessage, msg);
+            }
         };
     }
 
     @Test
     void testMissingSourceOrDestinationObject() {
+        mockErrorDialog("Action canceled. Source or destination object is null!");
+
         StopFromPlatformAction action = new StopFromPlatformAction();
         action.source = createPlatform(ds);
         action.destination = null;
@@ -58,6 +64,8 @@ public class StopFromPlatformTest {
 
     @Test
     void testSourceWithoutRequiredTag() {
+        mockErrorDialog("Action canceled. Source object doesn't contain public_transport=platform tag!");
+
         Node platform = createNode(ds);
         Node stop = createNode(ds);
 
