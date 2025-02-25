@@ -30,7 +30,8 @@ public class StopFromPlatformAction extends BusStopAction {
             return;
         }
         if (!source.hasTag("public_transport","platform")){
-            String msg = tr("Action canceled. Source object doesn't contains public_transport=platform tag!");
+            @SuppressWarnings("SpellCheckingInspection") // for single quote
+            String msg = tr("Action canceled. Source object doesn''t contain public_transport=platform tag!");
             Logging.warn(msg);
             BusStopToolGUI.errorDialog(msg);
             return;
