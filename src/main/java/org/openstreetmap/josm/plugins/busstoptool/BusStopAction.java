@@ -1,5 +1,7 @@
 package org.openstreetmap.josm.plugins.busstoptool;
 
+import jakarta.annotation.Nonnull;
+import java.util.ArrayList;
 import org.openstreetmap.josm.actions.JosmAction;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.tools.ImageProvider;
@@ -15,9 +17,10 @@ import java.util.Set;
 public abstract class BusStopAction extends JosmAction {
 
     protected static final Set<String> EXCLUDE_KEYS = Set.of("highway", "public_transport", "area");
-    private final String title; // used for GUI title too
+    private final String title; // GUI dialog uses it too
     protected OsmPrimitive source;
     protected OsmPrimitive destination;
+    protected BusStopToolGUI busStopToolGUI;
 
     public BusStopAction(String title, String description, String shortcutShort, String shortcutLong) {
         super(
@@ -38,65 +41,66 @@ public abstract class BusStopAction extends JosmAction {
      */
     private OsmPrimitive getOneSelectedPrimitive() {
         Collection<OsmPrimitive> primitives = getLayerManager().getEditDataSet().getSelected();
-        if (primitives.size() == 0){
+        if (primitives.isEmpty()) {
             Logging.info("No primitive selected");
             return null;
-        }
-        else if (primitives.size() > 1){
+        } else if (primitives.size() > 1) {
             Logging.info("Selected more than 1 primitive.");
             return null;
         }
-
 
         return primitives.stream().findFirst().get();
     }
 
     @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        // Reset selection
-        this.source = null;
-        this.destination = null;
+    public void actionPerformed(ActionEvent ignore) {
+        source = null;
+        destination = null;
+
+        busStopToolGUI = new BusStopToolGUI(title);
+        busStopToolGUI.addSourceBtnAddActionListener(actionEvent -> {
+            OsmPrimitive selectedPrimitive = getOneSelectedPrimitive();
+            if (selectedPrimitive != null) {
+                source = selectedPrimitive;
+                busStopToolGUI.setSourceBtnText(getNameFromPrimitive(source));
+                busStopToolGUI.setCreateBtnEnabled(isBothPrimitivesSelected());
+            }
+        });
+        busStopToolGUI.addDestinationBtnAddActionListener(actionEvent -> {
+            OsmPrimitive selectedPrimitive = getOneSelectedPrimitive();
+            if (selectedPrimitive != null) {
+                destination = selectedPrimitive;
+                busStopToolGUI.setDestinationBtnText(getNameFromPrimitive(destination));
+                busStopToolGUI.setCreateBtnEnabled(isBothPrimitivesSelected());
+            }
+        });
+        busStopToolGUI.addCreateBtnAddActionListener(actionEvent -> {
+            runAction();
+            busStopToolGUI.close();
+        });
 
         // Pre-selection
-        Collection<OsmPrimitive> selection = getLayerManager().getEditDataSet().getSelected();
-        if (selection.size() == 2){
-            OsmPrimitive[] primitives = selection.toArray(OsmPrimitive[]::new);
-            this.source = primitives[0];
-            this.destination = primitives[1];
-        }
+        ArrayList<OsmPrimitive> selectedPrimitives = new ArrayList<>(getLayerManager().getEditDataSet().getSelected());
+        if (selectedPrimitives.size() == 2) {
+            source = selectedPrimitives.get(0);
+            destination = selectedPrimitives.get(1);
 
-        new BusStopToolGUI(this);
+            busStopToolGUI.setSourceBtnText(getNameFromPrimitive(source));
+            busStopToolGUI.setDestinationBtnText(getNameFromPrimitive(destination));
+            busStopToolGUI.setCreateBtnEnabled(true);
+        }
     }
 
     protected abstract void runAction();
 
-    protected boolean selectSourcePrimitive(){
-        OsmPrimitive primitive = this.getOneSelectedPrimitive();
-        if (primitive != null){
-            this.source = primitive;
-            return true;
-        }
-        return false;
+    boolean isBothPrimitivesSelected() {
+        return source != null && destination != null;
     }
 
-    protected boolean selectDestinationPrimitive(){
-        OsmPrimitive primitive = this.getOneSelectedPrimitive();
-        if (primitive != null){
-            this.destination = primitive;
-            return true;
-        }
-        return false;
+    String getNameFromPrimitive(@Nonnull OsmPrimitive primitive) {
+        String name = primitive.getName() != null ? primitive.getName() : "";
+        name = name.substring(0, Math.min(15, name.length()));
+        return String.format("[%s] %o (%s)", primitive.getType().toString(), primitive.getId(), name);
     }
 
-    public OsmPrimitive getDestination() {
-        return destination;
-    }
-
-    public OsmPrimitive getSource() {
-        return source;
-    }
-
-    public String getTitle() {
-        return title;
-    }
 }

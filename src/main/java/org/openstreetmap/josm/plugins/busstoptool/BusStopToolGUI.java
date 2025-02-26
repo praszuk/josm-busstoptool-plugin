@@ -1,30 +1,30 @@
 package org.openstreetmap.josm.plugins.busstoptool;
 
-import org.openstreetmap.josm.data.osm.OsmPrimitive;
-import org.openstreetmap.josm.gui.MainApplication;
-
-import javax.swing.*;
-
-import java.awt.*;
-
 import static org.openstreetmap.josm.tools.I18n.tr;
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import org.openstreetmap.josm.gui.MainApplication;
 
 public class BusStopToolGUI extends JFrame {
     final static int HEIGHT = 135;
     final static int WIDTH = 670;
-    final static int MAX_NAME_CHARACTERS = 10;
-    private final BusStopAction busStopAction;
     private final JButton sourceBtn;
     private final JButton destinationBtn;
-    private final JButton moveBtn;
+    private final JButton createBtn;
 
-    public BusStopToolGUI(BusStopAction busStopAction) {
-        super();
-
-        this.busStopAction = busStopAction;
-
+    public BusStopToolGUI(String title) {
         setSize(WIDTH, HEIGHT);
-        setTitle(busStopAction.getTitle());
+        setTitle(title);
         setLocationRelativeTo(MainApplication.getMainFrame());
 
         JPanel root = new JPanel(new GridBagLayout());
@@ -33,47 +33,19 @@ public class BusStopToolGUI extends JFrame {
 
         setupPanel.setBorder(BorderFactory.createEtchedBorder());
 
-        JLabel sourceLabel = new JLabel(tr("Source object") + ": ");
-        JLabel destinationLabel = new JLabel(tr("Destination object") + ": ");
+        sourceBtn = new JButton(tr("<Add source object from selection>"));
+        destinationBtn = new JButton(tr("<Add destination object from selection>"));
 
-        sourceBtn = new JButton();
-        destinationBtn = new JButton();
-
-        sourceBtn.addActionListener(actionEvent -> {
-            boolean isSuccess = busStopAction.selectSourcePrimitive();
-            if (isSuccess){
-                updateSourceBtn();
-            }
-            updateMoveBtnLock();
-        });
-        destinationBtn.addActionListener(actionEvent -> {
-            boolean isSuccess = busStopAction.selectDestinationPrimitive();
-            if (isSuccess){
-                updateDestinationBtn();
-            }
-            updateMoveBtnLock();
-        });
-
-        setupPanel.add(sourceLabel);
+        setupPanel.add(new JLabel(tr("Source object") + ": "));
         setupPanel.add(sourceBtn);
 
-        setupPanel.add(destinationLabel);
+        setupPanel.add(new JLabel(tr("Destination object") + ": "));
         setupPanel.add(destinationBtn);
 
-        updateDestinationBtn();
-        updateSourceBtn();
-
         JPanel actionPanel = new JPanel();
-        moveBtn = new JButton(tr("Create"));
-        moveBtn.setEnabled(false);
-
-        moveBtn.addActionListener(actionEvent -> {
-            busStopAction.runAction();
-            close();
-        });
-        actionPanel.add(moveBtn);
-
-        updateMoveBtnLock();
+        createBtn = new JButton(tr("Create"));
+        createBtn.setEnabled(false);
+        actionPanel.add(createBtn);
 
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -98,56 +70,37 @@ public class BusStopToolGUI extends JFrame {
         setAlwaysOnTop(true);
     }
 
-    static void errorDialog(String msg){
+    static void errorDialog(String msg) {
         JOptionPane.showMessageDialog(MainApplication.getMainFrame(), msg, null, JOptionPane.ERROR_MESSAGE);
     }
-    private void updateMoveBtnLock() {
-        moveBtn.setEnabled(busStopAction.getSource() != null && busStopAction.getDestination() != null);
-    }
 
-    private void close() {
+    public void close() {
         setVisible(false);
         dispose();
     }
 
-    void updateSourceBtn() {
-        OsmPrimitive srcPrimitive = busStopAction.getSource();
-        if (busStopAction.getSource() == null) {
-            sourceBtn.setText(tr("<Add source object from selection>"));
-        } else {
-            String name = srcPrimitive.getName();
-            if (name != null){
-                name = name.substring(0, Math.min(MAX_NAME_CHARACTERS, name.length()));
-            }else {
-                name = "";
-            }
-            sourceBtn.setText(String.format(
-                    "[%s] %o (%s)",
-                    srcPrimitive.getType().toString(),
-                    srcPrimitive.getId(),
-                    name)
-            );
-        }
+    public void addSourceBtnAddActionListener(ActionListener listener) {
+        sourceBtn.addActionListener(listener);
     }
 
-    void updateDestinationBtn() {
-        OsmPrimitive dstPrimitive = busStopAction.getDestination();
-        if (busStopAction.getDestination() == null) {
-            destinationBtn.setText(tr("<Add destination object from selection>"));
-        } else {
-            String name = dstPrimitive.getName();
-            if (name != null){
-                name = name.substring(0, Math.min(MAX_NAME_CHARACTERS, name.length()));
-            }else {
-                name = "";
-            }
-            destinationBtn.setText(String.format(
-                    "[%s] %o (%s)",
-                    dstPrimitive.getType().toString(),
-                    dstPrimitive.getId(),
-                    name)
-            );
-        }
+    public void addDestinationBtnAddActionListener(ActionListener listener) {
+        destinationBtn.addActionListener(listener);
+    }
+
+    public void addCreateBtnAddActionListener(ActionListener listener) {
+        createBtn.addActionListener(listener);
+    }
+
+    public void setCreateBtnEnabled(boolean enabled) {
+        createBtn.setEnabled(enabled);
+    }
+
+    public void setSourceBtnText(String text) {
+        sourceBtn.setText(text);
+    }
+
+    public void setDestinationBtnText(String text) {
+        destinationBtn.setText(text);
     }
 
 }

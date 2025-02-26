@@ -7,6 +7,8 @@ import org.openstreetmap.josm.plugins.Plugin;
 import org.openstreetmap.josm.plugins.PluginInformation;
 
 public class BusStopToolPlugin extends Plugin {
+    public static final String pluginName = "BusStopTool";
+
     private final PlatformFromStopAction platformFromStopAction;
     private final StopFromPlatformAction stopFromPlatformAction;
 
