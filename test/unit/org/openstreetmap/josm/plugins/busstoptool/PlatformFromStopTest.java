@@ -203,7 +203,7 @@ public class PlatformFromStopTest {
     @Test
     void testAddPlatformWithRelation() {
         Node stopNode = createStop(ds);
-        Node newPlatformNode = createNode(ds, Map.of());
+        Node newPlatformNode = createNode(ds);
 
         Relation r = new RelationHelper(ds)
             .addMember("stop_entry_only", createStop(ds))
@@ -235,7 +235,7 @@ public class PlatformFromStopTest {
     @Test
     void testAddPlatformWithRelationMultiplePlatformMissing() {
         Node stopNode = createStop(ds);
-        Node newPlatformNode = createNode(ds, Map.of());
+        Node newPlatformNode = createNode(ds);
 
         Relation r = new RelationHelper(ds)
             .addMember("stop_entry_only", createStop(ds))
