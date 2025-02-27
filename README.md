@@ -1,24 +1,28 @@
 # BusStopTool plugin
 
 ## Description
-Helper plugin which allows adding missing platform from stop_position (including memberships in relations) and vice versa.
+BusStopTool is a plugin that allows you to add missing public transport objects derived from existing elements.
+
+It can create:
+- `public_transport=stop_position` node from a `highway=bus_stop` or `highway=platform`.
+- `public_transport=platform` node, way (open/closed) or multipolygon relation from a `stop_position` node.
+
+The plugin inserts missing memberships in route relations for multiple relations with keeping the correct order for the created object.
 
 ## Usage
-Example case: You need to create `highway=bus_stop;public_transport=platform` from `public_transport=stop_postion` on the road and 
-add it to many relations in correct order. Instead of manually clicking just:
-1. Open BusStopTool create platform/stop window from Menu->Selection.
-2. Select source object
-3. Select destination object
+Example scenario: You need to create `highway=bus_stop;public_transport=platform` from `public_transport=stop_position` on the road and 
+add it to multiple relations in the correct order. Instead of manually clicking:
+1. Open BusStopTool create platform/stop dialog from Menu->Selection.
+2. Select the source object
+3. Select the destination object (object must exist, but can be empty)
 4. Click Create
 
-Tip: You can also select 2 objects (order matters) before opening window.
+Tip: You can also select 2 objects before opening the dialog – they will be preselected (order matters).
 
-It will copy common tags (like `name`, `bench`, `shelter`...excluding `public_transport=stop_position`) to destination object and add membership for 
-all relations from source object.
+The tool will copy common tags (such as `name`, `bench`, `shelter`, etc., excluding `public_transport=stop_position`) to the destination object and add membership for 
+all relations from the source object.
 
-If you are creating a platform from stop_position, then it will add membership with role _platform_ AFTER stop member.
-If you are creating a stop_position from platform, then it will add membership with role _stop_ BEFORE stop member.
-There is one exception. If the role is e.g. `exit_stop_only` then it will create `exit_platform_only` and it should work for all these edge cases.
+To use it properly, ensure that the relation follows the PTv2 standard with members ordered as `stop, platform, stop, platform...`.
 
 
 ## License
