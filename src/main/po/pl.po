@@ -1,0 +1,105 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the josm-plugin_busstoptool package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: josm-plugin_busstoptool 7b80b2a\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-03-01 00:28+0100\n"
+"PO-Revision-Date: 2025-03-01 00:29+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
+"|| n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/BusStopToolGUI.java:37
+msgid "<Add destination object from selection>"
+msgstr "<Dodaj obiekt docelowy z zaznaczenia>"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/BusStopToolGUI.java:36
+msgid "<Add source object from selection>"
+msgstr "<Dodaj obiekt źródłowy z zaznaczenia>"
+
+#. for single quote
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/StopFromPlatformAction.java:39
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/PlatformFromStopAction.java:36
+#, java-format
+msgid "Action canceled. Source object doesn''t contain {0} tag!"
+msgstr "Akcja anulowana. Obiekt źródłowy nie zawiera tagu {0}!"
+
+#. for single quote
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/StopFromPlatformAction.java:32
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/PlatformFromStopAction.java:28
+msgid "Action canceled. Source or destination object doesn''t exist!"
+msgstr "Akcja anulowana. Obiekt źródłowy lub docelowy nie istnieje!"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/BusStopToolGUI.java:46
+msgid "Create"
+msgstr "Utwórz"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/PlatformFromStopAction.java:18
+msgid "Create platform from stop position"
+msgstr "Utwórz przystanek z miejsca zatrzymania"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/StopFromPlatformAction.java:18
+msgid "Create stop position from platform"
+msgstr "Utwórz miejsce zatrzymania z przystanku"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/PlatformFromStopAction.java:19
+#, java-format
+msgid ""
+"Creates platform ({0}) from stop position ({1}) and add new platform to "
+"relations"
+msgstr ""
+"Tworzy przystanek ({0}) z miejsca zatrzymania ({1}) i dodaje nowy przystanek "
+"do relacji"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/StopFromPlatformAction.java:20
+#, java-format
+msgid ""
+"Creates stop position ({0}) from platform ({1}) and add new stop to relations"
+msgstr ""
+"Tworzy miejsce zatrzymania ({0}) z przystanku ({1}) i dodaje nowe miejsce "
+"zatrzymania do relacji"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/BusStopToolGUI.java:42
+msgid "Destination object"
+msgstr "Obiekt docelowy"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/PlatformFromStopAction.java:21
+msgid "Open create platform dialog"
+msgstr "Otwiera okno dialogowe dla przystanku"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/StopFromPlatformAction.java:25
+msgid "Open create stop dialog"
+msgstr "Otwiera okno dialogowe dla miejsca zatrzymania"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/BusStopToolGUI.java:39
+msgid "Source object"
+msgstr "Obiekt źródłowy"
+
+#. Plugin description for busstoptool
+msgid ""
+"Plugin which allows to add missing platform from stop position (including "
+"memberships in relations) and vice versa."
+msgstr ""
+"Wtyczka, która umożliwia dodawanie brakujących przystanków z miejsc "
+"zatrzymania (włączając dodawanie członków relacji) i odwrotnie."
+
+#. Translator credits (translators who want to be credited for their contributions can add their names here as the translation)
+msgid "translator-credits"
+msgstr "NieWnen"
+
+#~ msgid ""
+#~ "Action canceled. Source object doesn''t contain "
+#~ "public_transport=stop_position tag!"
+#~ msgstr ""
+#~ "Akcja anulowana. Obiekt źródłowy nie zawiera tagu "
+#~ "public_transport=stop_position!"
