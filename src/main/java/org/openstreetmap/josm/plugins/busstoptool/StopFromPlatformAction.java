@@ -15,8 +15,12 @@ import static org.openstreetmap.josm.data.osm.OsmPrimitive.getParentRelations;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 public class StopFromPlatformAction extends BusStopAction {
-    static final String TITLE = tr("Create stop_position from platform");
-    static final String DESCRIPTION = tr("Creates stop_position from platform and add new stop to relations");
+    static final String TITLE = tr("Create stop position from platform");
+    static final String DESCRIPTION = tr(
+        "Creates stop position ({0}) from platform ({1}) and add new stop to relations",
+        "public_transport=stop_position",
+        "public_transport=platform"
+    );
     public StopFromPlatformAction() {
         super(TITLE, DESCRIPTION, BusStopToolPlugin.pluginName + ":createstop", BusStopToolPlugin.pluginName + ": " + tr("Open create stop dialog"));
     }
@@ -24,14 +28,15 @@ public class StopFromPlatformAction extends BusStopAction {
     @Override
     protected void runAction() {
         if (source == null || destination == null){
-            String msg = tr("Action canceled. Source or destination object is null!");
+            @SuppressWarnings("SpellCheckingInspection") // for single quote
+            String msg = tr("Action canceled. Source or destination object doesn''t exist!");
             Logging.warn(msg);
             BusStopToolGUI.errorDialog(msg);
             return;
         }
         if (!source.hasTag("public_transport","platform")){
             @SuppressWarnings("SpellCheckingInspection") // for single quote
-            String msg = tr("Action canceled. Source object doesn''t contain public_transport=platform tag!");
+            String msg = tr("Action canceled. Source object doesn''t contain {0} tag!", "public_transport=platform");
             Logging.warn(msg);
             BusStopToolGUI.errorDialog(msg);
             return;

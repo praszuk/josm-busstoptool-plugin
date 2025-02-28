@@ -40,7 +40,7 @@ public class StopFromPlatformTest {
 
     @Test
     void testMissingSourceOrDestinationObject() {
-        mockErrorDialog("Action canceled. Source or destination object is null!");
+        mockErrorDialog("Action canceled. Source or destination object doesn't exist!");
 
         StopFromPlatformAction action = new StopFromPlatformAction();
         action.source = createPlatform(ds);
