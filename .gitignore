@@ -45,3 +45,6 @@ replay_pid*
 
 # Ignore Gradle build output directory
 build
+
+# Ignore .mo translation files – .po is enough
+*.mo
