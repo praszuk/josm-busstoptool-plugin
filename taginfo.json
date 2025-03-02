@@ -1,0 +1,58 @@
+{
+  "data_format": 1,
+  "data_url": "https://raw.githubusercontent.com/praszuk/josm-busstoptool-plugin/master/taginfo.json",
+  "data_updated": "20250302T000000Z",
+  "project": {
+    "name": "josm_busstoptool_plugin",
+    "description": "Plugin which allows to add missing platform from stop position (including memberships in relations) and vice versa.",
+    "project_url": "https://github.com/praszuk/josm-busstoptool-plugin",
+    "doc_url": "https://github.com/praszuk/josm-busstoptool-plugin",
+    "contact_name": "NieWnen",
+    "contact_email": "niewnen@gmail.com"
+  },
+  "tags": [
+    {
+      "key": "public_transport",
+      "value": "platform"
+    },
+    {
+      "key": "public_transport",
+      "value": "stop_position",
+      "object_types": [
+        "node"
+      ]
+    },
+    {
+      "key": "bus",
+      "value": "yes",
+      "description": "Used with public_transport=stop_position",
+      "object_types": [
+        "node"
+      ]
+    },
+    {
+      "key": "highway",
+      "value": "bus_stop",
+      "object_types": [
+        "node"
+      ]
+    },
+    {
+      "key": "highway",
+      "value": "platform",
+      "object_types": [
+        "way",
+        "area",
+        "relation"
+      ]
+    },
+    {
+      "key": "area",
+      "value": "yes",
+      "description": "Used with highway=platform",
+      "object_types": [
+        "area"
+      ]
+    }
+  ]
+}
