@@ -1,5 +1,12 @@
 plugins {
     id("org.openstreetmap.josm").version("0.8.2")
+    id "checkstyle"
+}
+
+checkstyle {
+    toolVersion = "10.23.1"
+    maxWarnings = 0
+    sourceSets = []  // Disable checkstyle from build task
 }
 
 dependencies {
@@ -10,6 +17,7 @@ dependencies {
     testImplementation("org.openstreetmap.josm:josm-unittest:"){changing=true}
     testImplementation("org.wiremock:wiremock:3.12.0")
     testImplementation("org.awaitility:awaitility:4.3.0")
+    checkstyle "com.puppycrawl.tools:checkstyle:${checkstyle.toolVersion}"
 }
 
 sourceSets {
@@ -39,4 +47,15 @@ test {
             showStandardStreams true
         }
     }
+}
+
+tasks.register('installPreCommit', Copy) {
+    description = "Copy pre-commit.sh to .git/hooks dir."
+    outputs.upToDateWhen { false }
+    from("$rootDir/scripts/pre-commit")
+    into("$rootDir/.git/hooks/")
+}
+
+tasks.build {
+    dependsOn("installPreCommit")
 }

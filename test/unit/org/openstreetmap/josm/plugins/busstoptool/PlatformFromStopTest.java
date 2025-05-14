@@ -29,8 +29,7 @@ public class PlatformFromStopTest {
     }
 
     private void mockErrorDialog(String expectedMessage) {
-        new MockUp<BusStopToolGUI>()
-        {
+        new MockUp<BusStopToolGui>() {
             @Mock
             void errorDialog(String msg) {
                 Assertions.assertEquals(expectedMessage, msg);
@@ -109,7 +108,7 @@ public class PlatformFromStopTest {
 
         Way platformArea = new Way();
         ds.addPrimitive(platformArea);
-        for (int i = 0; i < 4;i++) {
+        for (int i = 0; i < 4; i++) {
             Node n = new Node(new LatLon(0, i));
             ds.addPrimitive(n);
             platformArea.addNode(n);
@@ -138,7 +137,7 @@ public class PlatformFromStopTest {
 
         Way platformArea = new Way();
         ds.addPrimitive(platformArea);
-        for (int i = 0; i < 4;i++) {
+        for (int i = 0; i < 4; i++) {
             platformArea.addNode(createNode(ds));
         }
         platformArea.addNode(platformArea.firstNode());
@@ -332,6 +331,7 @@ public class PlatformFromStopTest {
         Assertions.assertEquals(3, r.getMembers().size());
         Assertions.assertFalse(r.getMembers().stream().anyMatch(rm -> rm.getMember().equals(newPlatformNode)));
     }
+
     @Test
     void testAddPlatformWithRelationForStopExitOnly() {
         Node stopNode = createStop(ds);

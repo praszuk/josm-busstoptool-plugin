@@ -15,19 +15,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.openstreetmap.josm.gui.MainApplication;
 
-public class BusStopToolGUI extends JFrame {
-    final static int HEIGHT = 135;
-    final static int WIDTH = 670;
+public class BusStopToolGui extends JFrame {
+    static final int HEIGHT = 135;
+    static final int WIDTH = 670;
     private final JButton sourceBtn;
     private final JButton destinationBtn;
     private final JButton createBtn;
 
-    public BusStopToolGUI(String title) {
+    public BusStopToolGui(String title) {
         setSize(WIDTH, HEIGHT);
         setTitle(title);
         setLocationRelativeTo(MainApplication.getMainFrame());
-
-        JPanel root = new JPanel(new GridBagLayout());
 
         JPanel setupPanel = new JPanel(new GridLayout(2, 2));
 
@@ -55,6 +53,7 @@ public class BusStopToolGUI extends JFrame {
         c.gridy = 0;
         c.insets = new Insets(0, 5, 0, 5);
 
+        JPanel root = new JPanel(new GridBagLayout());
         root.add(setupPanel, c);
 
         c = new GridBagConstraints();
@@ -69,6 +68,7 @@ public class BusStopToolGUI extends JFrame {
         setVisible(true);
         setAlwaysOnTop(true);
     }
+
 
     static void errorDialog(String msg) {
         JOptionPane.showMessageDialog(MainApplication.getMainFrame(), msg, null, JOptionPane.ERROR_MESSAGE);

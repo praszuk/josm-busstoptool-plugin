@@ -1,26 +1,25 @@
 package org.openstreetmap.josm.plugins.busstoptool;
 
 import jakarta.annotation.Nonnull;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Set;
 import org.openstreetmap.josm.actions.JosmAction;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.Logging;
 import org.openstreetmap.josm.tools.Shortcut;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.util.Collection;
-import java.util.Set;
-
 
 public abstract class BusStopAction extends JosmAction {
 
     protected static final Set<String> EXCLUDE_KEYS = Set.of("highway", "public_transport", "area");
-    private final String title; // GUI dialog uses it too
+    private final String title; // Gui dialog uses it too
     protected OsmPrimitive source;
     protected OsmPrimitive destination;
-    protected BusStopToolGUI busStopToolGUI;
+    protected BusStopToolGui busStopToolGui;
 
     public BusStopAction(String title, String description, String shortcutShort, String shortcutLong) {
         super(
@@ -57,26 +56,26 @@ public abstract class BusStopAction extends JosmAction {
         source = null;
         destination = null;
 
-        busStopToolGUI = new BusStopToolGUI(title);
-        busStopToolGUI.addSourceBtnAddActionListener(actionEvent -> {
+        busStopToolGui = new BusStopToolGui(title);
+        busStopToolGui.addSourceBtnAddActionListener(actionEvent -> {
             OsmPrimitive selectedPrimitive = getOneSelectedPrimitive();
             if (selectedPrimitive != null) {
                 source = selectedPrimitive;
-                busStopToolGUI.setSourceBtnText(getNameFromPrimitive(source));
-                busStopToolGUI.setCreateBtnEnabled(isBothPrimitivesSelected());
+                busStopToolGui.setSourceBtnText(getNameFromPrimitive(source));
+                busStopToolGui.setCreateBtnEnabled(isBothPrimitivesSelected());
             }
         });
-        busStopToolGUI.addDestinationBtnAddActionListener(actionEvent -> {
+        busStopToolGui.addDestinationBtnAddActionListener(actionEvent -> {
             OsmPrimitive selectedPrimitive = getOneSelectedPrimitive();
             if (selectedPrimitive != null) {
                 destination = selectedPrimitive;
-                busStopToolGUI.setDestinationBtnText(getNameFromPrimitive(destination));
-                busStopToolGUI.setCreateBtnEnabled(isBothPrimitivesSelected());
+                busStopToolGui.setDestinationBtnText(getNameFromPrimitive(destination));
+                busStopToolGui.setCreateBtnEnabled(isBothPrimitivesSelected());
             }
         });
-        busStopToolGUI.addCreateBtnAddActionListener(actionEvent -> {
+        busStopToolGui.addCreateBtnAddActionListener(actionEvent -> {
             runAction();
-            busStopToolGUI.close();
+            busStopToolGui.close();
         });
 
         // Pre-selection
@@ -85,9 +84,9 @@ public abstract class BusStopAction extends JosmAction {
             source = selectedPrimitives.get(0);
             destination = selectedPrimitives.get(1);
 
-            busStopToolGUI.setSourceBtnText(getNameFromPrimitive(source));
-            busStopToolGUI.setDestinationBtnText(getNameFromPrimitive(destination));
-            busStopToolGUI.setCreateBtnEnabled(true);
+            busStopToolGui.setSourceBtnText(getNameFromPrimitive(source));
+            busStopToolGui.setDestinationBtnText(getNameFromPrimitive(destination));
+            busStopToolGui.setCreateBtnEnabled(true);
         }
     }
 
