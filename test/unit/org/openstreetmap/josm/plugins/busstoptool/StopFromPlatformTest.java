@@ -29,8 +29,7 @@ public class StopFromPlatformTest {
     }
 
     private void mockErrorDialog(String expectedMessage) {
-        new MockUp<BusStopToolGUI>()
-        {
+        new MockUp<BusStopToolGui>() {
             @Mock
             void errorDialog(String msg) {
                 Assertions.assertEquals(expectedMessage, msg);
@@ -110,7 +109,7 @@ public class StopFromPlatformTest {
         platform.put("public_transport", "platform");
 
         ds.addPrimitive(platform);
-        for (int i = 0; i < 4;i++) {
+        for (int i = 0; i < 4; i++) {
             Node n = new Node(new LatLon(0, i));
             ds.addPrimitive(n);
             platform.addNode(n);
@@ -143,7 +142,7 @@ public class StopFromPlatformTest {
         platform.put("area", "yes");
 
         ds.addPrimitive(platform);
-        for (int i = 0; i < 4;i++) {
+        for (int i = 0; i < 4; i++) {
             platform.addNode(createNode(ds));
         }
         platform.addNode(platform.firstNode());
@@ -340,6 +339,7 @@ public class StopFromPlatformTest {
         Assertions.assertEquals(3, r.getMembers().size());
         Assertions.assertFalse(r.getMembers().stream().anyMatch(rm -> rm.getMember().equals(stop)));
     }
+
     @Test
     void testAddStopWithRelationForPlatformExitOnly() {
         Node stop = createNode(ds);
@@ -367,6 +367,7 @@ public class StopFromPlatformTest {
         Assertions.assertEquals(3, r.getMembers().size());
         Assertions.assertFalse(r.getMembers().stream().anyMatch(rm -> rm.getMember().equals(stop)));
     }
+
     @Test
     void testAddPlatformWithRelationWithBrokenRoleMembershipSkippedTagsAdded() {
         Node stop = createNode(ds);
