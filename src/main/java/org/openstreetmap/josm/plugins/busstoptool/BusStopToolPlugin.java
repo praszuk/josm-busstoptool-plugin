@@ -18,6 +18,7 @@ public class BusStopToolPlugin extends Plugin {
         stopFromPlatformAction = new StopFromPlatformAction();
         MainMenu.add(MainApplication.getMenu().selectionMenu, platformFromStopAction);
         MainMenu.add(MainApplication.getMenu().selectionMenu, stopFromPlatformAction);
+        MainMenu.add(MainApplication.getMenu().dataMenu, new BusStopSettingsAction(new SettingsController()));
     }
 
     @Override
