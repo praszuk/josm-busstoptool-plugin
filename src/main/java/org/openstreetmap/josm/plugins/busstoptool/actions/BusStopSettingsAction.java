@@ -1,10 +1,12 @@
-package org.openstreetmap.josm.plugins.busstoptool;
+package org.openstreetmap.josm.plugins.busstoptool.actions;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import org.openstreetmap.josm.actions.JosmAction;
+import org.openstreetmap.josm.plugins.busstoptool.BusStopToolPlugin;
+import org.openstreetmap.josm.plugins.busstoptool.gui.controllers.SettingsController;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.Shortcut;
 

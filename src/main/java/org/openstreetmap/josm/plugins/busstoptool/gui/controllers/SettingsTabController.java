@@ -1,14 +1,19 @@
-package org.openstreetmap.josm.plugins.busstoptool;
+package org.openstreetmap.josm.plugins.busstoptool.gui.controllers;
+
+import org.openstreetmap.josm.plugins.busstoptool.CopyAdditionalTagsMode;
+import org.openstreetmap.josm.plugins.busstoptool.gui.SettingsTabModel;
+import org.openstreetmap.josm.plugins.busstoptool.gui.SettingsTagListViewModel;
+import org.openstreetmap.josm.plugins.busstoptool.gui.views.SettingsTabPanel;
 
 public class SettingsTabController {
     private final SettingsTabModel settingsTabModel;
     private final SettingsTabPanel settingsTabPanelView;
-    private final SettingsTagListModel settingsTagListModel;
+    private final SettingsTagListViewModel settingsTagListModel;
 
     public SettingsTabController(SettingsTabModel settingsTabModel, SettingsTabPanel settingsTabPanelView) {
         this.settingsTabModel = settingsTabModel;
         this.settingsTabPanelView = settingsTabPanelView;
-        this.settingsTagListModel = new SettingsTagListModel();
+        this.settingsTagListModel = new SettingsTagListViewModel();
 
         settingsTabPanelView.setTagListModel(settingsTagListModel);
         settingsTabPanelView.setSelectedAdditionalTagMode(settingsTabModel.getCopyAdditionalTagsMode().getName());

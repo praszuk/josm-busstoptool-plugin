@@ -5,6 +5,10 @@ import org.openstreetmap.josm.gui.MainMenu;
 import org.openstreetmap.josm.gui.MapFrame;
 import org.openstreetmap.josm.plugins.Plugin;
 import org.openstreetmap.josm.plugins.PluginInformation;
+import org.openstreetmap.josm.plugins.busstoptool.actions.BusStopSettingsAction;
+import org.openstreetmap.josm.plugins.busstoptool.actions.PlatformFromStopAction;
+import org.openstreetmap.josm.plugins.busstoptool.actions.StopFromPlatformAction;
+import org.openstreetmap.josm.plugins.busstoptool.gui.controllers.SettingsController;
 
 public class BusStopToolPlugin extends Plugin {
     public static final String pluginName = "BusStopTool";

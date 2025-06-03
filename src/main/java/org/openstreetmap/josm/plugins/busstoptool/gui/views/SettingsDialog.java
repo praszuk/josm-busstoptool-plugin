@@ -1,16 +1,16 @@
-package org.openstreetmap.josm.plugins.busstoptool;
-
-import static org.openstreetmap.josm.tools.I18n.tr;
+package org.openstreetmap.josm.plugins.busstoptool.gui.views;
 
 import java.awt.Component;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import org.openstreetmap.josm.gui.MainApplication;
+import org.openstreetmap.josm.plugins.busstoptool.BusStopToolPlugin;
+import org.openstreetmap.josm.tools.I18n;
 
 public class SettingsDialog extends JFrame {
     static final int HEIGHT = 460;
     static final int WIDTH = 360;
-    static final String TITLE = tr("{0} settings", BusStopToolPlugin.pluginName);
+    static final String TITLE = I18n.tr("{0} settings", BusStopToolPlugin.pluginName);
 
     private final JTabbedPane tabbedPane;
 

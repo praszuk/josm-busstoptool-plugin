@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.busstoptool;
+package org.openstreetmap.josm.plugins.busstoptool.gui;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import org.openstreetmap.josm.data.preferences.ListProperty;
 import org.openstreetmap.josm.data.preferences.StringProperty;
+import org.openstreetmap.josm.plugins.busstoptool.CopyAdditionalTagsMode;
 
 public class SettingsTabModel {
     public static final String TAGS_CHANGED = "tags_changed";

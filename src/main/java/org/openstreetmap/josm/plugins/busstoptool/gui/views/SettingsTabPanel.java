@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.busstoptool;
+package org.openstreetmap.josm.plugins.busstoptool.gui.views;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
@@ -22,6 +22,7 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionListener;
+import org.openstreetmap.josm.plugins.busstoptool.CopyAdditionalTagsMode;
 
 public class SettingsTabPanel extends JPanel {
     private Map<String, JRadioButton> radioButtons;

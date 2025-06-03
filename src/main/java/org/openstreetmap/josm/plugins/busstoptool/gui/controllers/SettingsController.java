@@ -1,6 +1,11 @@
-package org.openstreetmap.josm.plugins.busstoptool;
+package org.openstreetmap.josm.plugins.busstoptool.gui.controllers;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
+
+import org.openstreetmap.josm.plugins.busstoptool.BusStopSettings;
+import org.openstreetmap.josm.plugins.busstoptool.gui.SettingsTabModel;
+import org.openstreetmap.josm.plugins.busstoptool.gui.views.SettingsDialog;
+import org.openstreetmap.josm.plugins.busstoptool.gui.views.SettingsTabPanel;
 
 public class SettingsController {
     private final SettingsTabPanel settingsPlatformFromStopTabPanelView;

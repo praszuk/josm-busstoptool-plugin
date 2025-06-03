@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.busstoptool;
+package org.openstreetmap.josm.plugins.busstoptool.actions;
 
 import static org.openstreetmap.josm.data.osm.OsmPrimitive.getParentRelations;
 import static org.openstreetmap.josm.tools.I18n.tr;
@@ -14,6 +14,8 @@ import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Relation;
 import org.openstreetmap.josm.data.osm.RelationMember;
 import org.openstreetmap.josm.data.osm.TagMap;
+import org.openstreetmap.josm.plugins.busstoptool.BusStopToolPlugin;
+import org.openstreetmap.josm.plugins.busstoptool.gui.views.BusStopActionDialog;
 import org.openstreetmap.josm.tools.Logging;
 
 public class StopFromPlatformAction extends BusStopAction {
@@ -30,19 +32,19 @@ public class StopFromPlatformAction extends BusStopAction {
     }
 
     @Override
-    protected void runAction() {
+    public void runAction() {
         if (source == null || destination == null) {
             @SuppressWarnings("SpellCheckingInspection") // for single quote
             String msg = tr("Action canceled. Source or destination object doesn''t exist!");
             Logging.warn(msg);
-            BusStopToolGui.errorDialog(msg);
+            BusStopActionDialog.errorDialog(msg);
             return;
         }
         if (!source.hasTag("public_transport", "platform")) {
             @SuppressWarnings("SpellCheckingInspection") // for single quote
             String msg = tr("Action canceled. Source object doesn''t contain {0} tag!", "public_transport=platform");
             Logging.warn(msg);
-            BusStopToolGui.errorDialog(msg);
+            BusStopActionDialog.errorDialog(msg);
             return;
         }
 

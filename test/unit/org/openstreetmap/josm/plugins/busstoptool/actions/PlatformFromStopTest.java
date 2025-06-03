@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.busstoptool;
+package org.openstreetmap.josm.plugins.busstoptool.actions;
 
 import static org.openstreetmap.josm.plugins.busstoptool.NodeHelper.createNode;
 import static org.openstreetmap.josm.plugins.busstoptool.NodeHelper.createPlatform;
@@ -17,6 +17,8 @@ import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Relation;
 import org.openstreetmap.josm.data.osm.RelationMember;
 import org.openstreetmap.josm.data.osm.Way;
+import org.openstreetmap.josm.plugins.busstoptool.RelationHelper;
+import org.openstreetmap.josm.plugins.busstoptool.gui.views.BusStopActionDialog;
 
 public class PlatformFromStopTest {
     private DataSet ds;
@@ -29,7 +31,7 @@ public class PlatformFromStopTest {
     }
 
     private void mockErrorDialog(String expectedMessage) {
-        new MockUp<BusStopToolGui>() {
+        new MockUp<BusStopActionDialog>() {
             @Mock
             void errorDialog(String msg) {
                 Assertions.assertEquals(expectedMessage, msg);
