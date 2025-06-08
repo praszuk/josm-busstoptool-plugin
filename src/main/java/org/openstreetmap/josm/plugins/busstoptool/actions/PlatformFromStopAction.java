@@ -5,6 +5,7 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import org.openstreetmap.josm.command.ChangeMembersCommand;
 import org.openstreetmap.josm.command.ChangePropertyCommand;
 import org.openstreetmap.josm.command.Command;
@@ -16,7 +17,9 @@ import org.openstreetmap.josm.data.osm.Relation;
 import org.openstreetmap.josm.data.osm.RelationMember;
 import org.openstreetmap.josm.data.osm.TagMap;
 import org.openstreetmap.josm.data.osm.Way;
+import org.openstreetmap.josm.plugins.busstoptool.BusStopSettings;
 import org.openstreetmap.josm.plugins.busstoptool.BusStopToolPlugin;
+import org.openstreetmap.josm.plugins.busstoptool.CopyAdditionalTagsMode;
 import org.openstreetmap.josm.plugins.busstoptool.gui.views.BusStopActionDialog;
 import org.openstreetmap.josm.tools.Logging;
 
@@ -68,9 +71,28 @@ public class PlatformFromStopAction extends BusStopAction {
         List<Command> commands = new ArrayList<>();
 
         // Copy tags
+        Predicate<String> filter;
+        CopyAdditionalTagsMode mode = CopyAdditionalTagsMode.fromName(
+            BusStopSettings.PLATFORM_FROM_STOP_COPY_MODE.get()
+        );
+        switch (mode) {
+            case ALL_TAGS:
+                filter = key -> !EXCLUDE_KEYS.contains(key);
+                break;
+            case SELECTED_TAGS:
+                List<String> selectedTags = BusStopSettings.PLATFORM_FROM_STOP_SELECTED_TAGS.get();
+                filter = key -> !EXCLUDE_KEYS.contains(key) && selectedTags.contains(key);
+                break;
+            case NO_TAGS:
+            default:
+                filter = key -> false;
+                break;
+        }
         TagMap tags = new TagMap();
-        source.keys().filter(key -> !EXCLUDE_KEYS.contains(key)).forEach(key -> tags.put(key, source.get(key)));
-        commands.add(new ChangePropertyCommand(List.of(destination), tags));
+        source.keys().filter(filter).forEach(key -> tags.put(key, source.get(key)));
+        if (!tags.isEmpty()) {
+            commands.add(new ChangePropertyCommand(List.of(destination), tags));
+        }
 
         // Add base (required) tags to the platform
         commands.add(new ChangePropertyCommand(List.of(destination), getBasePlatformTags(destination)));
