@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: josm-plugin_busstoptool 7b80b2a\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-01 00:28+0100\n"
-"PO-Revision-Date: 2025-03-01 00:29+0100\n"
+"POT-Creation-Date: 2025-06-10 01:21+0200\n"
+"PO-Revision-Date: 2025-06-10 01:24+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -19,40 +19,56 @@ msgstr ""
 "|| n%100>14) ? 1 : 2);\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/BusStopToolGUI.java:37
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/gui/views/BusStopActionDialog.java:35
 msgid "<Add destination object from selection>"
 msgstr "<Dodaj obiekt docelowy z zaznaczenia>"
 
-#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/BusStopToolGUI.java:36
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/gui/views/BusStopActionDialog.java:34
 msgid "<Add source object from selection>"
 msgstr "<Dodaj obiekt źródłowy z zaznaczenia>"
 
 #. for single quote
-#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/StopFromPlatformAction.java:39
-#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/PlatformFromStopAction.java:36
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/actions/StopFromPlatformAction.java:48
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/actions/PlatformFromStopAction.java:64
 #, java-format
 msgid "Action canceled. Source object doesn''t contain {0} tag!"
 msgstr "Akcja anulowana. Obiekt źródłowy nie zawiera tagu {0}!"
 
 #. for single quote
-#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/StopFromPlatformAction.java:32
-#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/PlatformFromStopAction.java:28
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/actions/StopFromPlatformAction.java:41
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/actions/PlatformFromStopAction.java:56
 msgid "Action canceled. Source or destination object doesn''t exist!"
 msgstr "Akcja anulowana. Obiekt źródłowy lub docelowy nie istnieje!"
 
-#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/BusStopToolGUI.java:46
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/gui/views/SettingsTabPanel.java:53
+msgid "Add"
+msgstr "Dodaj"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/gui/views/SettingsTabPanel.java:115
+msgid "Add new tag"
+msgstr "Dodaj nowy tag"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/CopyAdditionalTagsMode.java:7
+msgid "All tags"
+msgstr "Wszystkie tagi"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/gui/views/SettingsTabPanel.java:41
+msgid "Copy additional tags mode"
+msgstr "Tryb kopiowania dodatkowych tagów"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/gui/views/BusStopActionDialog.java:44
 msgid "Create"
 msgstr "Utwórz"
 
-#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/PlatformFromStopAction.java:18
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/actions/PlatformFromStopAction.java:27
 msgid "Create platform from stop position"
 msgstr "Utwórz przystanek z miejsca zatrzymania"
 
-#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/StopFromPlatformAction.java:18
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/actions/StopFromPlatformAction.java:25
 msgid "Create stop position from platform"
 msgstr "Utwórz miejsce zatrzymania z przystanku"
 
-#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/PlatformFromStopAction.java:19
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/actions/PlatformFromStopAction.java:29
 #, java-format
 msgid ""
 "Creates platform ({0}) from stop position ({1}) and add new platform to "
@@ -61,7 +77,7 @@ msgstr ""
 "Tworzy przystanek ({0}) z miejsca zatrzymania ({1}) i dodaje nowy przystanek "
 "do relacji"
 
-#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/StopFromPlatformAction.java:20
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/actions/StopFromPlatformAction.java:27
 #, java-format
 msgid ""
 "Creates stop position ({0}) from platform ({1}) and add new stop to relations"
@@ -69,21 +85,55 @@ msgstr ""
 "Tworzy miejsce zatrzymania ({0}) z przystanku ({1}) i dodaje nowe miejsce "
 "zatrzymania do relacji"
 
-#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/BusStopToolGUI.java:42
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/gui/views/BusStopActionDialog.java:40
 msgid "Destination object"
 msgstr "Obiekt docelowy"
 
-#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/PlatformFromStopAction.java:21
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/CopyAdditionalTagsMode.java:9
+msgctxt "Copy not tags"
+msgid "No tags"
+msgstr "Brak tagów"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/actions/PlatformFromStopAction.java:34
 msgid "Open create platform dialog"
 msgstr "Otwiera okno dialogowe dla przystanku"
 
-#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/StopFromPlatformAction.java:25
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/actions/StopFromPlatformAction.java:34
 msgid "Open create stop dialog"
 msgstr "Otwiera okno dialogowe dla miejsca zatrzymania"
 
-#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/BusStopToolGUI.java:39
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/gui/controllers/SettingsController.java:35
+msgid "Platform from stop"
+msgstr "Platform z stop"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/gui/views/SettingsTabPanel.java:54
+msgid "Remove"
+msgstr "Usuń"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/CopyAdditionalTagsMode.java:8
+msgid "Selected tags"
+msgstr "Wybrane tagi"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/actions/BusStopSettingsAction.java:15
+msgid "Settings"
+msgstr "Ustawienia"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/actions/BusStopSettingsAction.java:14
+msgid "Show settings"
+msgstr "Pokaż ustawienia"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/gui/views/BusStopActionDialog.java:37
 msgid "Source object"
 msgstr "Obiekt źródłowy"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/gui/controllers/SettingsController.java:36
+msgid "Stop from platform"
+msgstr "Stop z platform"
+
+#: src/main/java/org/openstreetmap/josm/plugins/busstoptool/gui/views/SettingsDialog.java:13
+#, java-format
+msgid "{0} settings"
+msgstr "{0} ustawienia"
 
 #. Plugin description for busstoptool
 msgid ""
