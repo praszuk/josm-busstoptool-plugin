@@ -5,7 +5,7 @@ import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.osm.Node;
 
-class NodeHelper {
+public class NodeHelper {
     public static Node createNode(DataSet ds) {
         Node node = new Node(new LatLon(0, 0));
         ds.addPrimitive(node);

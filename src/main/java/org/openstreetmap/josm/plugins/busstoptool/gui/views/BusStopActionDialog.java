@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.busstoptool;
+package org.openstreetmap.josm.plugins.busstoptool.gui.views;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
@@ -15,14 +15,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.openstreetmap.josm.gui.MainApplication;
 
-public class BusStopToolGui extends JFrame {
+public class BusStopActionDialog extends JFrame {
     static final int HEIGHT = 135;
     static final int WIDTH = 670;
     private final JButton sourceBtn;
     private final JButton destinationBtn;
     private final JButton createBtn;
 
-    public BusStopToolGui(String title) {
+    public BusStopActionDialog(String title) {
         setSize(WIDTH, HEIGHT);
         setTitle(title);
         setLocationRelativeTo(MainApplication.getMainFrame());
@@ -70,7 +70,7 @@ public class BusStopToolGui extends JFrame {
     }
 
 
-    static void errorDialog(String msg) {
+    public static void errorDialog(String msg) {
         JOptionPane.showMessageDialog(MainApplication.getMainFrame(), msg, null, JOptionPane.ERROR_MESSAGE);
     }
 

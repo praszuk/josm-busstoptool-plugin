@@ -1,9 +1,11 @@
-package org.openstreetmap.josm.plugins.busstoptool;
+package org.openstreetmap.josm.plugins.busstoptool.actions;
 
 import static org.openstreetmap.josm.plugins.busstoptool.NodeHelper.createNode;
 import static org.openstreetmap.josm.plugins.busstoptool.NodeHelper.createPlatform;
 import static org.openstreetmap.josm.plugins.busstoptool.NodeHelper.createStop;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import mockit.Mock;
 import mockit.MockUp;
@@ -17,6 +19,10 @@ import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Relation;
 import org.openstreetmap.josm.data.osm.RelationMember;
 import org.openstreetmap.josm.data.osm.Way;
+import org.openstreetmap.josm.plugins.busstoptool.BusStopSettings;
+import org.openstreetmap.josm.plugins.busstoptool.CopyAdditionalTagsMode;
+import org.openstreetmap.josm.plugins.busstoptool.RelationHelper;
+import org.openstreetmap.josm.plugins.busstoptool.gui.views.BusStopActionDialog;
 
 public class PlatformFromStopTest {
     private DataSet ds;
@@ -25,11 +31,16 @@ public class PlatformFromStopTest {
     void setUp() {
         UndoRedoHandler.getInstance().clean();
 
-        this.ds = new DataSet();
+        ds = new DataSet();
+
+        BusStopSettings.PLATFORM_FROM_STOP_COPY_MODE.put(
+            BusStopSettings.PLATFORM_FROM_STOP_COPY_MODE.getDefaultValue()
+        );
+        BusStopSettings.PLATFORM_FROM_STOP_SELECTED_TAGS.put(new ArrayList<>());
     }
 
     private void mockErrorDialog(String expectedMessage) {
-        new MockUp<BusStopToolGui>() {
+        new MockUp<BusStopActionDialog>() {
             @Mock
             void errorDialog(String msg) {
                 Assertions.assertEquals(expectedMessage, msg);
@@ -75,6 +86,111 @@ public class PlatformFromStopTest {
 
         Assertions.assertFalse(platform.hasKeys());
         Assertions.assertNull(UndoRedoHandler.getInstance().getLastCommand());
+    }
+
+    @Test
+    void testCopyAdditionalTagsModeAllTags() {
+        BusStopSettings.PLATFORM_FROM_STOP_COPY_MODE.put(CopyAdditionalTagsMode.ALL_TAGS.getName());
+
+        Node stop = createStop(ds);
+        stop.put("name", "Bus stop 01");
+        stop.put("ref", "123");
+
+        Node platform = createNode(ds);
+
+        PlatformFromStopAction action = new PlatformFromStopAction();
+        action.source = stop;
+        action.destination = platform;
+        action.runAction();
+
+        Assertions.assertEquals(5, platform.getKeys().size());
+        Assertions.assertTrue(platform.hasTag("public_transport", "platform"));
+        Assertions.assertTrue(platform.hasTag("highway", "bus_stop"));
+        Assertions.assertTrue(platform.hasTag("name", "Bus stop 01"));
+        Assertions.assertTrue(platform.hasTag("ref", "123"));
+        Assertions.assertTrue(platform.hasTag("bus", "yes"));
+
+        UndoRedoHandler.getInstance().getLastCommand().undoCommand();
+
+        Assertions.assertTrue(platform.getKeys().isEmpty());
+    }
+
+    @Test
+    void testCopyAdditionalTagsModeSelectedTagsWithoutMatches() {
+        BusStopSettings.PLATFORM_FROM_STOP_COPY_MODE.put(CopyAdditionalTagsMode.SELECTED_TAGS.getName());
+
+        Node stop = createStop(ds);
+        stop.put("name", "Bus stop 01");
+        stop.put("ref", "123");
+
+        Node platform = createNode(ds);
+
+        PlatformFromStopAction action = new PlatformFromStopAction();
+        action.source = stop;
+        action.destination = platform;
+        action.runAction();
+
+        Assertions.assertEquals(2, platform.getKeys().size());
+        Assertions.assertTrue(platform.hasTag("public_transport", "platform"));
+        Assertions.assertTrue(platform.hasTag("highway", "bus_stop"));
+
+        UndoRedoHandler.getInstance().getLastCommand().undoCommand();
+
+        Assertions.assertTrue(platform.getKeys().isEmpty());
+    }
+
+    @Test
+    void testCopyAdditionalTagsModeSelectedTagsWithMatches() {
+        BusStopSettings.PLATFORM_FROM_STOP_COPY_MODE.put(CopyAdditionalTagsMode.SELECTED_TAGS.getName());
+        BusStopSettings.PLATFORM_FROM_STOP_SELECTED_TAGS.put(new ArrayList<>(List.of(
+            "name",
+            "public_transport" // ensure stop_position value is not copied/replaced
+        )));
+
+        Node stop = createStop(ds);
+        stop.put("name", "Bus stop 01");
+        stop.put("ref", "123");
+
+        Node platform = createNode(ds);
+
+        PlatformFromStopAction action = new PlatformFromStopAction();
+        action.source = stop;
+        action.destination = platform;
+        action.runAction();
+
+        Assertions.assertEquals(3, platform.getKeys().size());
+        Assertions.assertTrue(platform.hasTag("public_transport", "platform"));
+        Assertions.assertTrue(platform.hasTag("highway", "bus_stop"));
+        Assertions.assertTrue(platform.hasTag("name", "Bus stop 01"));
+
+        UndoRedoHandler.getInstance().getLastCommand().undoCommand();
+
+        Assertions.assertTrue(platform.getKeys().isEmpty());
+    }
+
+    @Test
+    void testCopyAdditionalTagsModeNoTags() {
+        BusStopSettings.PLATFORM_FROM_STOP_COPY_MODE.put(CopyAdditionalTagsMode.NO_TAGS.getName());
+
+        Node stop = createStop(ds);
+        stop.put("name", "Bus stop 01");
+        stop.put("ref", "123");
+
+        Node platform = createNode(ds);
+
+        PlatformFromStopAction action = new PlatformFromStopAction();
+        action.source = stop;
+        action.destination = platform;
+        action.runAction();
+
+        // NO_TAGS copy mode still includes base tags
+        Assertions.assertEquals(2, platform.getKeys().size());
+        Assertions.assertTrue(platform.hasTag("public_transport", "platform"));  // platform instead of stop_position
+        Assertions.assertTrue(platform.hasTag("highway", "bus_stop"));
+
+        UndoRedoHandler.getInstance().getLastCommand().undoCommand();
+
+        Assertions.assertTrue(platform.getKeys().isEmpty());
     }
 
     @Test

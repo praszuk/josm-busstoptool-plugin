@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.busstoptool;
+package org.openstreetmap.josm.plugins.busstoptool.actions;
 
 import jakarta.annotation.Nonnull;
 import java.awt.event.ActionEvent;
@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Set;
 import org.openstreetmap.josm.actions.JosmAction;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
+import org.openstreetmap.josm.plugins.busstoptool.gui.views.BusStopActionDialog;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.Logging;
 import org.openstreetmap.josm.tools.Shortcut;
@@ -19,7 +20,7 @@ public abstract class BusStopAction extends JosmAction {
     private final String title; // Gui dialog uses it too
     protected OsmPrimitive source;
     protected OsmPrimitive destination;
-    protected BusStopToolGui busStopToolGui;
+    protected BusStopActionDialog busStopActionDialog;
 
     public BusStopAction(String title, String description, String shortcutShort, String shortcutLong) {
         super(
@@ -56,26 +57,26 @@ public abstract class BusStopAction extends JosmAction {
         source = null;
         destination = null;
 
-        busStopToolGui = new BusStopToolGui(title);
-        busStopToolGui.addSourceBtnAddActionListener(actionEvent -> {
+        busStopActionDialog = new BusStopActionDialog(title);
+        busStopActionDialog.addSourceBtnAddActionListener(actionEvent -> {
             OsmPrimitive selectedPrimitive = getOneSelectedPrimitive();
             if (selectedPrimitive != null) {
                 source = selectedPrimitive;
-                busStopToolGui.setSourceBtnText(getNameFromPrimitive(source));
-                busStopToolGui.setCreateBtnEnabled(isBothPrimitivesSelected());
+                busStopActionDialog.setSourceBtnText(getNameFromPrimitive(source));
+                busStopActionDialog.setCreateBtnEnabled(isBothPrimitivesSelected());
             }
         });
-        busStopToolGui.addDestinationBtnAddActionListener(actionEvent -> {
+        busStopActionDialog.addDestinationBtnAddActionListener(actionEvent -> {
             OsmPrimitive selectedPrimitive = getOneSelectedPrimitive();
             if (selectedPrimitive != null) {
                 destination = selectedPrimitive;
-                busStopToolGui.setDestinationBtnText(getNameFromPrimitive(destination));
-                busStopToolGui.setCreateBtnEnabled(isBothPrimitivesSelected());
+                busStopActionDialog.setDestinationBtnText(getNameFromPrimitive(destination));
+                busStopActionDialog.setCreateBtnEnabled(isBothPrimitivesSelected());
             }
         });
-        busStopToolGui.addCreateBtnAddActionListener(actionEvent -> {
+        busStopActionDialog.addCreateBtnAddActionListener(actionEvent -> {
             runAction();
-            busStopToolGui.close();
+            busStopActionDialog.close();
         });
 
         // Pre-selection
@@ -84,13 +85,13 @@ public abstract class BusStopAction extends JosmAction {
             source = selectedPrimitives.get(0);
             destination = selectedPrimitives.get(1);
 
-            busStopToolGui.setSourceBtnText(getNameFromPrimitive(source));
-            busStopToolGui.setDestinationBtnText(getNameFromPrimitive(destination));
-            busStopToolGui.setCreateBtnEnabled(true);
+            busStopActionDialog.setSourceBtnText(getNameFromPrimitive(source));
+            busStopActionDialog.setDestinationBtnText(getNameFromPrimitive(destination));
+            busStopActionDialog.setCreateBtnEnabled(true);
         }
     }
 
-    protected abstract void runAction();
+    public abstract void runAction();
 
     boolean isBothPrimitivesSelected() {
         return source != null && destination != null;
